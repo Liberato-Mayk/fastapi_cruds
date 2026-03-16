@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Ventas Pro - PETSHOP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <aside class="sidebar">
+        <h2 class="logo-pet">🐾 PETSHOP</h2>
+        <div class="huella-grande">🐾</div>
+
+        <nav>
+            <ul>
+                <li onclick="mostrarSeccion('productos')" id="menu-productos">📦 Productos</li>
+                <li onclick="mostrarSeccion('categorias')" id="menu-categorias">📂 Categorías</li>
+                <li onclick="mostrarSeccion('clientes')" id="menu-clientes">👥 Clientes</li>
+                <li onclick="mostrarSeccion('ventas')" id="menu-ventas">💰 Ventas</li>
+                <li onclick="mostrarSeccion('pagina')" id="menu-pagina">🌐 Página</li>
+                <li onclick="mostrarSeccion('mensajes')" id="menu-mensajes">📬 Mensajes</li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="content-header">
+            <h1 id="titulo-seccion">Productos</h1>
+            <div id="contenedor-boton"></div>
+        </header>
+
+        <section class="table-container">
+            <table id="tabla-general">
+                <thead id="cabecera-tabla"></thead>
+                <tbody id="cuerpo-tabla"></tbody>
+            </table>
+
+            <div id="seccion-pagina" style="display:none; text-align:center; padding: 50px;">
+                <h2>Panel de Control Web</h2>
+                <p>Accede a la vista pública de la tienda.</p>
+                <button class="btn-primary" onclick="window.open('http://127.0.0.1:5500/sistema_venta/frontend/pajina/info.html')">
+                    Ir a la Web
+                </button>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div id="modalForm" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2 id="modal-titulo">Formulario</h2>
+        <form id="formularioDinmico">
+            <div id="campos-formulario"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+                <button type="submit" class="btn-primary">Guardar Datos</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalVenta" class="modal" style="display: none;">
+    <div class="modal-content modal-lg">
+        <h2>🧾 Nueva Venta</h2>
+
+        <div class="venta-grid">
+            <div class="venta-col">
+                <label>Cliente (Buscar por Nombre o Doc)</label>
+                <input 
+                    type="text" 
+                    id="v-cliente-buscar" 
+                    placeholder="Ej: Juan Perez o 77654321" 
+                    oninput="buscarClienteAlVuelo(this.value)"
+                    autocomplete="off"
+                >
+                <div id="res-busqueda-cliente" class="busqueda-dropdown"></div>
+                <input type="hidden" id="v-cliente-id-seleccionado">
+
+                <div id="seccion-cliente-nuevo" style="display:none; background:#f5faff; padding:15px; border-radius:8px; margin-top:10px; border:1px solid #3498db">
+                    <p style="color:#2980b9; font-weight:bold; margin-bottom:10px">✨ Nuevo cliente</p>
+                    <select id="vn-tipo">
+                        <option value="DNI">DNI</option>
+                        <option value="RUC">RUC</option>
+                    </select>
+                    <input type="text" id="vn-doc" placeholder="Número de documento">
+                    <input type="text" id="vn-nombre" placeholder="Nombre completo">
+                    <input type="email" id="vn-email" placeholder="Correo (opcional)">
+                    <input type="text" id="vn-telf" placeholder="Teléfono">
+                </div>
+            </div>
+
+            <div class="venta-col">
+                <label>Buscar Producto (ID o Nombre)</label>
+                <input
+                    type="text"
+                    id="v-buscar-prod"
+                    placeholder="Escribe para buscar..."
+                    oninput="buscarProductoEnVenta(this.value)"
+                    autocomplete="off"
+                >
+                <div id="res-busqueda" class="busqueda-dropdown"></div>
+                <div id="detalles-producto-venta" class="detalles-prod" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+
+        <hr>
+
+        <h3>🛒 Carrito de Compras</h3>
+        <div id="lista-carrito">
+            </div>
+
+        <div style="margin-top: 15px; font-size: 1.2rem;">
+            <strong>Total General: S/ <span id="v-total-general">0.00</span></strong>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn-cancel" onclick="cerrarModal()">Cerrar</button>
+            <button type="button" class="btn-primary" onclick="registrarVenta()">Realizar Venta</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

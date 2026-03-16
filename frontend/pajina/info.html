@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetHuacho - Cuidado y Bienestar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="info.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1>PetHuacho <i class="fas fa-paw"></i></h1>
+            <p>Cuidado, bienestar y felicidad para tu mascota en el corazón de Huacho</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="about">
+            <h2>¿Quiénes somos?</h2>
+            <p>En <strong>PetHuacho</strong> somos una tienda especializada en mascotas ubicada en Huacho. Nos dedicamos a ofrecer alimentos de alta gama, accesorios divertidos y artículos de higiene esenciales para el cuidado integral de perros, gatos y otras mascotas.</p>
+        </section>
+
+        <section class="products">
+            <h2 class="section-title">Nuestros Productos</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <i class="fas fa-bone"></i>
+                    <h3>Alimentos Premium</h3>
+                    <p>Marcas reconocidas y balanceadas para cada etapa de vida.</p>
+                </div>
+                <div class="product-card">
+                    <i class="fas fa-baseball-ball"></i>
+                    <h3>Accesorios</h3>
+                    <p>Collares, camas y juguetes para su total comodidad.</p>
+                </div>
+                <div class="product-card">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Higiene y Salud</h3>
+                    <p>Shampoos, antipulgas y artículos de cuidado especializado.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="commitment">
+            <div class="commitment-list">
+                <div class="item"><i class="fas fa-check-circle"></i> Productos de calidad</div>
+                <div class="item"><i class="fas fa-check-circle"></i> Atención personalizada</div>
+                <div class="item"><i class="fas fa-check-circle"></i> Asesoramiento responsable</div>
+                <div class="item"><i class="fas fa-check-circle"></i> Precios competitivos</div>
+            </div>
+        </section>
+
+        <section class="contact">
+            <div class="contact-header">
+                <h2>Contáctanos <i class="fas fa-envelope-open-text"></i></h2>
+                <p>¿Tienes dudas o quieres hacer un pedido? Escríbenos y te responderemos en tiempo récord.</p>
+            </div>
+            
+            <div class="contact-box">
+                <form id="contactForm">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="nombre" placeholder="Nombre completo" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="Correo electrónico" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="telefono" placeholder="Teléfono (Opcional)">
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-comment-dots"></i>
+                        <textarea id="mensaje" placeholder="¿En qué podemos ayudarte?" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-send">
+                        <span>Enviar mensaje</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+
+                <div id="successMessage" class="success-msg" style="display: none;">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>¡Mensaje enviado con éxito!</h3>
+                    <p>Gracias por confiar en PetHuacho. Nos pondremos en contacto contigo muy pronto.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="info.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - PetShop</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-box">
+        <h2 id="form-title">Acceso al Sistema</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" placeholder="Usuario" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Contraseña" required>
+            </div>
+            
+            <button type="submit" id="btn-main">Ingresar</button>
+            
+            <p id="error" class="error-msg"></p>
+            
+            <div class="register-footer">
+                <p id="toggle-text">¿No tienes cuenta? <a href="#" id="toggle-link">Regístrate aquí</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="login.js"></script>
+</body>
+</html>
