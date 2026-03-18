@@ -568,7 +568,7 @@ async function cargarMensajes() {
         </tr>
     `;
     try {
-        const response = await fetch('http://localhost:8000/mensajes'); 
+        const response = await fetch(`${API_URL}/mensajes/`);
         const mensajes = await response.json();
         cuerpo.innerHTML = '';
         mensajes.forEach(m => {

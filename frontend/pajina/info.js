@@ -1,50 +1,44 @@
-document.getElementById('contactForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-    const form = event.target;
+    const form = e.target;
     const successMsg = document.getElementById('successMessage');
 
-    form.style.opacity = '0';
-    
-    setTimeout(() => {
-        form.style.display = 'none';
-        successMsg.style.display = 'block';
-        successMsg.style.animation = 'fadeIn 0.5s ease-in';
-    }, 400);
-
-    const datos = {
-        nombre: document.getElementById('nombre').value,
-        email: document.getElementById('email').value,
-        mensaje: document.getElementById('mensaje').value
-    };
-    
-    console.log("Datos capturados para el Admin:", datos);
-});
-
-document.getElementById("contactForm").addEventListener("submit", async function(e){
-    e.preventDefault();
+    // 1. Capturamos los datos (Asegúrate de que 'telefono' exista en tu HTML)
     const datos = {
         nombre: document.getElementById("nombre").value,
         email: document.getElementById("email").value,
-        telefono: document.getElementById("telefono").value,
+        telefono: document.getElementById("telefono") ? document.getElementById("telefono").value : "",
         mensaje: document.getElementById("mensaje").value
     };
-    try{
-        const respuesta = await fetch("http://127.0.0.1:8000/mensajes/", {
+
+    try {
+        // 2. CAMBIO CLAVE: Usamos ruta relativa para Render
+        const respuesta = await fetch("/mensajes/", {
             method: "POST",
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(datos)
         });
-        if(respuesta.ok){
-            document.getElementById("contactForm").style.display = "none";
-            document.getElementById("successMessage").style.display = "block";
-        }else{
-            alert("Error al enviar el mensaje");
+
+        if (respuesta.ok) {
+            // 3. Si el servidor responde bien, ejecutamos tu animación
+            form.style.opacity = '0';
+            
+            setTimeout(() => {
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+                successMsg.style.animation = 'fadeIn 0.5s ease-in';
+            }, 400);
+
+            console.log("Mensaje enviado con éxito:", datos);
+        } else {
+            const errorData = await respuesta.json();
+            alert("Error al enviar: " + (errorData.detail || "Intente más tarde"));
         }
-    }catch(error){
-        console.error(error);
-        alert("No se pudo conectar con el servidor");
+    } catch (error) {
+        console.error("Error de conexión:", error);
+        alert("No se pudo conectar con el servidor. Verifica tu conexión.");
     }
 });

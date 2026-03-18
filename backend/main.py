@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware 
 from database import crear_db
 from routers import r_producto, r_categoria, r_clientes, r_venta, r_admin, r_mensaje
+import os
 
 app = FastAPI()
 origins = ["*"]
@@ -30,7 +31,8 @@ def on_startup():
 def home():
     return {"mensaje": "API Gestión de Usuario Activa"}
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-app.mount("/pagina", StaticFiles(directory="../frontend/pajina"), name="pagina")
-app.mount("/sistema", StaticFiles(directory="../frontend/sistema"), name="sistema")
-app.mount("/login", StaticFiles(directory="../frontend/login"), name="login")
+app.mount("/pagina", StaticFiles(directory=os.path.join(BASE_DIR, "frontend/pajina")), name="pagina")
+app.mount("/sistema", StaticFiles(directory=os.path.join(BASE_DIR, "frontend/sistema")), name="sistema")
+app.mount("/login", StaticFiles(directory=os.path.join(BASE_DIR, "frontend/login")), name="login")

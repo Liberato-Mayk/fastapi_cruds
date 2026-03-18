@@ -1,59 +1,85 @@
 let esRegistro = false;
-const API_URL = "http://127.0.0.1:8000/admin"; // Incluimos el prefijo del router
+const API_URL = "/admin"; 
 
-const toggleLink = document.getElementById("toggle-link");
 const formTitle = document.getElementById("form-title");
 const btnMain = document.getElementById("btn-main");
 const toggleText = document.getElementById("toggle-text");
 const errorMsg = document.getElementById("error");
+const form = document.getElementById("loginForm");
 
-toggleLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    esRegistro = !esRegistro;
-    formTitle.innerText = esRegistro ? "Crear Administrador" : "Acceso al Sistema";
-    btnMain.innerText = esRegistro ? "Registrar" : "Ingresar";
-    toggleText.innerHTML = esRegistro 
-        ? '¿Ya tienes cuenta? <a href="#" id="toggle-link">Inicia sesión</a>'
-        : '¿No tienes cuenta? <a href="#" id="toggle-link">Regístrate aquí</a>';
-    
-    // Re-vincular evento al nuevo link
-    document.getElementById("toggle-link").addEventListener("click", () => toggleLink.click());
-});
+// 🔹 FUNCIÓN PARA ACTIVAR EL TOGGLE (sin errores)
+function activarToggle() {
+    const toggleLink = document.getElementById("toggle-link");
 
-document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    toggleLink.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        esRegistro = !esRegistro;
+
+        formTitle.innerText = esRegistro ? "Crear Administrador" : "Acceso al Sistema";
+        btnMain.innerText = esRegistro ? "Registrar" : "Ingresar";
+
+        toggleText.innerHTML = esRegistro 
+            ? '¿Ya tienes cuenta? <a href="#" id="toggle-link">Inicia sesión</a>'
+            : '¿No tienes cuenta? <a href="#" id="toggle-link">Regístrate aquí</a>';
+
+        activarToggle(); // 🔥 reactivar evento correctamente
+    });
+}
+
+// Activar por primera vez
+activarToggle();
+
+// 🔹 ENVÍO DEL FORMULARIO
+form.addEventListener("submit", async function(e) {
     e.preventDefault();
+
     errorMsg.innerText = "";
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    // Ajuste de rutas según tu r_admin.py
-    const endpoint = esRegistro ? `${API_URL}/create-admin` : `${API_URL}/login`;
+    if (!username || !password) {
+        errorMsg.innerText = "Todos los campos son obligatorios";
+        return;
+    }
+
+    const endpoint = esRegistro 
+        ? `${API_URL}/create-admin` 
+        : `${API_URL}/login`;
 
     try {
         const response = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            // Enviamos los datos. Nota: create-admin en tu código actual no recibe parámetros, 
-            // crea uno por defecto "admin/123456".
-            body: JSON.stringify({ username, password }) 
+            body: JSON.stringify({ username, password })
         });
 
-        const data = await response.json();
+        let data;
+        try {
+            data = await response.json();
+        } catch {
+            throw new Error("Respuesta inválida del servidor");
+        }
 
         if (response.ok) {
+
             if (esRegistro) {
-                alert(`Admin creado: ${data.usuario}. Ahora inicia sesión.`);
+                alert(`✅ Admin creado: ${data.usuario}\nAhora inicia sesión`);
                 location.reload();
             } else {
                 localStorage.setItem("token", data.access_token);
-                // Salir de carpeta 'login' e ingresar a 'sistema'
+
+                // Redirección al sistema
                 window.location.href = "../sistema/index.html";
             }
+
         } else {
             errorMsg.innerText = data.detail || "Error en la operación";
         }
+
     } catch (err) {
-        errorMsg.innerText = "Error de conexión con el servidor.";
+        console.error(err);
+        errorMsg.innerText = "❌ Error de conexión con el servidor";
     }
 });
