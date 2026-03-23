@@ -1,10 +1,14 @@
 from sqlmodel import SQLModel, create_engine, Session
 from settings import username, password, host, database, port
 from typing import Generator
+import os
 
-DATABASE_URL = (
-    f"postgresql+psycopg2://{username}:{password}@{host}:{port}/{database}"
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg2://postgres:miki@localhost:5432/db_pajina"
 )
+if not DATABASE_URL:
+    raise ValueError("No se encontró la variable DATABASE_URL")
 
 engine = create_engine(DATABASE_URL, echo=True)
 
