@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware 
 from backend.database import crear_db
 from backend.routers import r_producto, r_categoria, r_clientes, r_venta, r_admin, r_mensaje
@@ -29,7 +30,7 @@ def on_startup():
 
 @app.get("/")
 def home():
-    return {"mensaje": "API Gestión de Usuario Activa"}
+    return FileResponse(os.path.join(BASE_DIR, "frontend/pajina/index.html"))
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
