@@ -30,7 +30,7 @@ def on_startup():
 
 @app.get("/")
 def home():
-    return FileResponse(os.path.join(BASE_DIR, "frontend/pajina/index.html"))
+    return FileResponse(os.path.join(BASE_DIR, "frontend/index.html"))
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
