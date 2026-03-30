@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 from typing import List
-from database import get_session
-from crud.c_producto import obtener_productos
-
-from database import get_session
-from schemas.s_producto import ProductoCreate, ProductoRead, ProductoUpdate
-from crud import c_producto
+from backend.database import get_session
+from backend.crud.c_producto import obtener_productos
+from backend.schemas.s_producto import ProductoCreate, ProductoRead, ProductoUpdate
+from backend.crud import c_producto
 
 router = APIRouter(prefix="/productos", tags=["Productos"])
 

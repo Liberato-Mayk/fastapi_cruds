@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
-from models.m_mensajes import Mensaje
-from schemas.s_mensajes import MensajeCreate
+from backend.models.m_mensajes import Mensaje
+from backend.schemas.s_mensajes import MensajeCreate
 
 
 def crear_mensaje(db: Session, mensaje: MensajeCreate):

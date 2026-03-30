@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware 
-from database import crear_db
-from routers import r_producto, r_categoria, r_clientes, r_venta, r_admin, r_mensaje
+from backend.database import crear_db
+from backend.routers import r_producto, r_categoria, r_clientes, r_venta, r_admin, r_mensaje
 import os
 
 app = FastAPI()

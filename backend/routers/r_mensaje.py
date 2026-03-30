@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlmodel import Session
-from database import get_session
-
-from crud.c_mensaje import crear_mensaje, listar_mensajes
-from schemas.s_mensajes import MensajeCreate
-from models.m_mensajes import Mensaje
+from backend.database import get_session
+from backend.crud.c_mensaje import crear_mensaje, listar_mensajes
+from backend.schemas.s_mensajes import MensajeCreate
+from backend.models.m_mensajes import Mensaje
 
 router = APIRouter(prefix="/mensajes", tags=["Mensajes"])
 

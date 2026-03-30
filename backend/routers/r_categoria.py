@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
-from typing import List
-
-from database import get_session
-from schemas.s_categoria import CategoriaCreate, CategoriaRead, CategoriaUpdate
-from crud import c_categoria
+from typing import List 
+from backend.database import get_session
+from backend.schemas.s_categoria import CategoriaCreate, CategoriaRead, CategoriaUpdate
+from backend.crud import c_categoria
 
 router = APIRouter(prefix="/categorias", tags=["Categorias"])
 

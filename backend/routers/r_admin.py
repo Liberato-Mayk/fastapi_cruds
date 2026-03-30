@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
-from database import get_session
-from schemas.s_admin import AdminLogin
-from crud.c_admin import get_admin_by_username
-from utils.seguridad import verify_password, create_access_token
+from backend.database import get_session
+from backend.schemas.s_admin import AdminLogin
+from backend.crud.c_admin import get_admin_by_username
+from backend.utils.seguridad import verify_password, create_access_token
 
 router = APIRouter(prefix="/admin", tags=["Admin Auth"])
 

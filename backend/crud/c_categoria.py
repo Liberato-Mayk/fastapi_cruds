@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from models.m_categoria import Categoria
+from backend.models.m_categoria import Categoria
 
 
 def crear_categoria(db: Session, categoria_data):

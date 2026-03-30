@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 from typing import List
-from database import get_session
-from crud.c_venta import obtener_ventas, eliminar_venta
-
-from database import get_session
-from schemas.s_venta import VentaCreate, VentaRead
-from crud import c_venta
+from fastapi import APIRouter, Depends
+from sqlmodel import Session
+from backend.database import get_session
+from backend.crud.c_venta import obtener_ventas, eliminar_venta
+from backend.schemas.s_venta import VentaCreate, VentaRead
+from backend.crud import c_venta
 
 router = APIRouter(prefix="/ventas", tags=["Ventas"])
 

@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel, create_engine, Session
-from settings import username, password, host, database, port
+from backend.settings import username, password, host, database, port
 from typing import Generator
 import os
 

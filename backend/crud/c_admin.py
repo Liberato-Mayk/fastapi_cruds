@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
-from models.m_admin import Admin
-from utils.seguridad import get_password_hash
+from backend.models.m_admin import Admin
+from backend.utils.seguridad import get_password_hash
 
 def create_admin(db: Session, username: str, password: str):
     hashed_password = get_password_hash(password)

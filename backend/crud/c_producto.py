@@ -1,7 +1,7 @@
 from sqlmodel import Session, select
-from models.m_productos import Producto
-from models.m_categoria import Categoria
-from schemas.s_producto import ProductoRead
+from backend.models.m_productos import Producto
+from backend.models.m_categoria import Categoria
+from backend.schemas.s_producto import ProductoRead
 
 def crear_producto(db: Session, producto_data):
     producto = Producto(**producto_data.model_dump())

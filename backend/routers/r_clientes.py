@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 from typing import List
 
-from database import get_session
-from schemas.s_cliente import ClienteCreate, ClienteRead, ClienteUpdate
-from crud import c_cliente
+from backend.database import get_session
+from backend.schemas.s_cliente import ClienteCreate, ClienteRead, ClienteUpdate
+from backend.crud import c_cliente
 
 router = APIRouter(prefix="/clientes", tags=["Clientes"])
 

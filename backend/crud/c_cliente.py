@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from models.m_clientes import Cliente
+from backend.models.m_clientes import Cliente
 
 
 def crear_cliente(db: Session, cliente_data):

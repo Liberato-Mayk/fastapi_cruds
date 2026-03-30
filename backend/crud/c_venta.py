@@ -1,9 +1,9 @@
 from sqlmodel import Session, select
 from fastapi import HTTPException
-from models.m_ventas import Venta
-from models.m_detalle_venta import DetalleVenta
-from models.m_productos import Producto
-from models.m_clientes import Cliente
+from backend.models.m_ventas import Venta
+from backend.models.m_detalle_venta import DetalleVenta
+from backend.models.m_productos import Producto
+from backend.models.m_clientes import Cliente
 
 
 
