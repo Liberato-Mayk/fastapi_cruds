@@ -49,10 +49,13 @@ form.addEventListener("submit", async function(e) {
         : `${API_URL}/login`;
 
     try {
+        const formData = new FormData();
+        formData.append("username", username);
+        formData.append("password", password);
+
         const response = await fetch(endpoint, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
+            body: formData
         });
 
         let data;
