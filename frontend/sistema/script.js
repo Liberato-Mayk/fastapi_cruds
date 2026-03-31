@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000"; 
+const API_URL = "https://fastapi-cruds.onrender.com";
 
 let seccionActual = 'productos';
 let editandoId = null; 
