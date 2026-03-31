@@ -1,5 +1,5 @@
 let esRegistro = false;
-const API_URL = "/admin"; 
+const API_URL = "https://fastapi-cruds.onrender.com/admin";
 
 const formTitle = document.getElementById("form-title");
 const btnMain = document.getElementById("btn-main");
