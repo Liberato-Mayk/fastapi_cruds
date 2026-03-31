@@ -354,14 +354,6 @@ async function eliminarFila(id) {
     }
 }
 
-function abrirModalVenta() {
-    document.getElementById('modalVenta').style.display = "block";
-    document.getElementById('v-cliente').value = "";
-    document.getElementById('v-buscar-prod').value = "";
-    document.getElementById('detalles-producto-venta').innerHTML = "";
-    productoSeleccionadoParaVenta = null;
-}
-
 async function registrarVenta() {
     let clienteId = document.getElementById('v-cliente-id-seleccionado').value;
     const esNuevo = document.getElementById('seccion-cliente-nuevo').style.display === "block";
