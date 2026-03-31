@@ -93,40 +93,6 @@ function eliminarDelCarrito(id) {
     renderizarCarrito();
 }
 
-async function registrarVenta() {
-    const clienteId = document.getElementById('v-cliente').value.trim();
-    if (!clienteId || isNaN(clienteId)) {
-        return alert("Ingrese un ID de cliente válido.");
-    }
-    if (carritoVenta.length === 0) {
-        return alert("Agregue al menos un producto.");
-    }
-    const payload = {
-        cliente_id: Number(clienteId),
-        detalles: carritoVenta.map(p => ({
-            producto_id: p.producto_id,
-            cantidad: p.cantidad
-        }))
-    };
-
-    console.log("Payload enviado:", payload);
-
-    const response = await fetch(`${API_URL}/ventas/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-    });
-
-    if (response.ok) {
-        alert("✅ Venta registrada correctamente");
-        cerrarModal();
-        mostrarSeccion('ventas');
-    } else {
-        const error = await response.json();
-        alert("❌ Error: " + error.detail);
-    }
-}
-
 async function mostrarSeccion(seccion) {
     seccionActual = seccion;
     const titulo = document.getElementById('titulo-seccion');
