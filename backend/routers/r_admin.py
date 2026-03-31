@@ -12,17 +12,13 @@ def login(data: AdminLogin, db: Session = Depends(get_session)):
     admin = get_admin_by_username(db, data.username)
 
     if not admin:
-        raise HTTPException(status_code=400, detail="Usuario incorrecto")
-
-    if not verify_password(data.password, admin.hashed_password):
-        raise HTTPException(status_code=400, detail="Contraseña incorrecta")
-
-    access_token = create_access_token({"sub": admin.username})
+        return {"error": "no existe usuario"}
 
     return {
-        "access_token": access_token,
-        "token_type": "bearer"
+        "usuario": admin.username,
+        "hash": admin.hashed_password
     }
+
 
 @router.post("/create-admin")
 def create_first_admin(data: AdminLogin, db: Session = Depends(get_session)): 
