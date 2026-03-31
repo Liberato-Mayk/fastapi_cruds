@@ -5,6 +5,60 @@ let editandoId = null;
 let productoSeleccionadoParaVenta = null;
 let carritoVenta = [];
 
+async function mostrarSeccion(seccion) {
+    seccionActual = seccion;
+    const titulo = document.getElementById('titulo-seccion');
+    const btnContenedor = document.getElementById('contenedor-boton');
+    const tablaElement = document.getElementById('tabla-general');
+    const seccionPagina = document.getElementById('seccion-pagina');
+    document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+    const itemMenu = document.getElementById(`menu-${seccion}`);
+    if (itemMenu) itemMenu.classList.add('active');
+    if (seccion === 'pagina') {
+        titulo.innerText = "Página Informativa";
+        btnContenedor.innerHTML = "";
+        tablaElement.style.display = "none";
+        seccionPagina.style.display = "block";
+        return;
+    }
+    tablaElement.style.display = "table";
+    seccionPagina.style.display = "none";
+    const titulosH1 = { 
+        productos: "Gestión de Productos", 
+        categorias: "Gestión de Categorías", 
+        clientes: "Gestión de Clientes", 
+        ventas: "Gestión de Ventas",
+        mensajes: "Mensajes Recibidos" 
+    };
+    const textosBotones = { 
+        productos: "Producto", 
+        categorias: "Categoría", 
+        clientes: "Cliente", 
+        ventas: "Venta" 
+    };
+    titulo.innerText = titulosH1[seccion] || "Panel de Control";
+    try {
+        const response = await fetch(`${API_URL}/${seccion}/`);
+        const lista = await response.json();
+        if (seccion === 'ventas') {
+            btnContenedor.innerHTML = `<button class="btn-primary" onclick="abrirModalVenta()">Nueva Venta</button>`;
+            renderizarTabla(['ID Venta', 'ID Cliente', 'Cliente', 'Producto', 'Total', 'Fecha', ''], lista);
+        } 
+        else if (seccion === 'mensajes') {
+            btnContenedor.innerHTML = ""; 
+            renderizarTabla(['ID', 'Nombre Completo', 'Email', 'Teléfono', 'Mensaje', 'Fecha'], lista);
+        } 
+        else {
+            btnContenedor.innerHTML = `<button class="btn-primary" onclick="abrirModalForm()">Nuevo ${textosBotones[seccion]}</button>`;
+            
+            if (seccion === 'productos') renderizarTabla(['ID', 'Nombre', 'Categoria', 'Stock', 'Precio', 'Fecha', ''], lista);
+            else if (seccion === 'categorias') renderizarTabla(['ID', 'Nombre', 'Descripción', 'Fecha', ''], lista);
+            else if (seccion === 'clientes') renderizarTabla(['ID', 'Documento', 'Nombre', 'Email', 'Teléfono', 'Fecha de Creación', ''], lista);
+        }
+    } catch (error) {
+        console.error("Error al cargar:", error);
+    }
+}
 
 function abrirModalVenta() {
     document.getElementById('modalVenta').style.display = "block";
@@ -93,60 +147,6 @@ function eliminarDelCarrito(id) {
     renderizarCarrito();
 }
 
-async function mostrarSeccion(seccion) {
-    seccionActual = seccion;
-    const titulo = document.getElementById('titulo-seccion');
-    const btnContenedor = document.getElementById('contenedor-boton');
-    const tablaElement = document.getElementById('tabla-general');
-    const seccionPagina = document.getElementById('seccion-pagina');
-    document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
-    const itemMenu = document.getElementById(`menu-${seccion}`);
-    if (itemMenu) itemMenu.classList.add('active');
-    if (seccion === 'pagina') {
-        titulo.innerText = "Página Informativa";
-        btnContenedor.innerHTML = "";
-        tablaElement.style.display = "none";
-        seccionPagina.style.display = "block";
-        return;
-    }
-    tablaElement.style.display = "table";
-    seccionPagina.style.display = "none";
-    const titulosH1 = { 
-        productos: "Gestión de Productos", 
-        categorias: "Gestión de Categorías", 
-        clientes: "Gestión de Clientes", 
-        ventas: "Gestión de Ventas",
-        mensajes: "Mensajes Recibidos" 
-    };
-    const textosBotones = { 
-        productos: "Producto", 
-        categorias: "Categoría", 
-        clientes: "Cliente", 
-        ventas: "Venta" 
-    };
-    titulo.innerText = titulosH1[seccion] || "Panel de Control";
-    try {
-        const response = await fetch(`${API_URL}/${seccion}/`);
-        const lista = await response.json();
-        if (seccion === 'ventas') {
-            btnContenedor.innerHTML = `<button class="btn-primary" onclick="abrirModalVenta()">Nueva Venta</button>`;
-            renderizarTabla(['ID Venta', 'ID Cliente', 'Cliente', 'Producto', 'Total', 'Fecha', ''], lista);
-        } 
-        else if (seccion === 'mensajes') {
-            btnContenedor.innerHTML = ""; 
-            renderizarTabla(['ID', 'Nombre Completo', 'Email', 'Teléfono', 'Mensaje', 'Fecha'], lista);
-        } 
-        else {
-            btnContenedor.innerHTML = `<button class="btn-primary" onclick="abrirModalForm()">Nuevo ${textosBotones[seccion]}</button>`;
-            
-            if (seccion === 'productos') renderizarTabla(['ID', 'Nombre', 'Categoria', 'Stock', 'Precio', 'Fecha', ''], lista);
-            else if (seccion === 'categorias') renderizarTabla(['ID', 'Nombre', 'Descripción', 'Fecha', ''], lista);
-            else if (seccion === 'clientes') renderizarTabla(['ID', 'Documento', 'Nombre', 'Email', 'Teléfono', 'Fecha de Creación', ''], lista);
-        }
-    } catch (error) {
-        console.error("Error al cargar:", error);
-    }
-}
 function renderizarTabla(cabeceras, lista) {
     document.getElementById('cabecera-tabla').innerHTML =
         `<tr>${cabeceras.map(c => `<th>${c}</th>`).join('')}</tr>`;
