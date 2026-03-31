@@ -4,9 +4,7 @@ from typing import Generator
 import os
 
 DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg2://postgres:miki@localhost:5432/db_pajina"
-)
+    "DATABASE_URL")
 if not DATABASE_URL:
     raise ValueError("No se encontró la variable DATABASE_URL")
 
