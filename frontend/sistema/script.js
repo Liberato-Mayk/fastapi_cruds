@@ -54,56 +54,6 @@ async function buscarProductoEnVenta(val){
     });}
 
 function agregarAlCarrito(producto) {
-    const cantidad = parseInt(document.getElementById("v-cantidad").value);
-    if (!cantidad || cantidad <= 0) {
-        alert("Cantidad inválida");
-        return;}
-    const subtotal = producto.precio * cantidad;
-    carritoVenta.push({
-        producto_id: producto.id,
-        nombre: producto.nombre,
-        precio: producto.precio,
-        cantidad: cantidad,
-        subtotal: subtotal});
-    renderizarCarrito();
-}
-
-async function buscarProductoEnVenta(val){
-    const res = document.getElementById("res-busqueda");
-    const detalles = document.getElementById("detalles-producto-venta");
-    res.innerHTML = "";
-    if(val.length === 0){
-        detalles.innerHTML = "";
-        return;}
-    const response = await fetch(`${API_URL}/productos/`);
-    const productos = await response.json();
-    const filtrados = productos.filter(p =>
-        p.id.toString().includes(val) ||
-        p.nombre.toLowerCase().includes(val.toLowerCase()));
-
-    filtrados.forEach(p =>{
-    const div = document.createElement("div");
-        div.className = "item-busqueda";
-        div.innerText = `${p.nombre} (Stock: ${p.stock})`;
-        div.onclick = () =>{
-            productoSeleccionadoParaVenta = p;
-            detalles.innerHTML = `
-            <strong>Producto:</strong> ${p.nombre} |
-            <strong>Precio:</strong> S/ ${p.precio} |
-            <strong>Stock:</strong> ${p.stock}
-            <br><br>
-            Cantidad
-            <input type="number" id="v-cantidad" value="1" min="1" max="${p.stock}">
-            <br><br>
-            <button class="btn-primary"
-            onclick="agregarAlCarrito(productoSeleccionadoParaVenta)">
-            Agregar al carrito
-            </button>
-            `;};
-        res.appendChild(div);});
-}
-
-function agregarAlCarrito(producto) {
     const cantidadInput = document.getElementById("v-cantidad");
     const cantidad = parseInt(cantidadInput.value);
     if (!cantidad || cantidad <= 0) {
