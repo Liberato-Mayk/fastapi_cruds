@@ -369,9 +369,18 @@ async function registrarVenta() {
     });
 
     if (response.ok) {
-        alert("✅ Venta registrada con éxito");
-        cerrarModal();
-        mostrarSeccion('ventas');
+    const mensajeOk = document.createElement('div');
+    mensajeOk.innerHTML = `✅ Venta registrada`;
+    mensajeOk.style = `
+        position: fixed; top: 20px; right: 20px; background: #27ae60; color: white;
+        padding: 15px 25px; border-radius: 8px; z-index: 9999;
+    `;
+    document.body.appendChild(mensajeOk);
+
+    setTimeout(() => mensajeOk.remove(), 2000);
+
+    cerrarModal();
+    mostrarSeccion('ventas');
     }
 }
 
