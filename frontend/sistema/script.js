@@ -369,7 +369,7 @@ async function registrarVenta() {
     });
 
     if (response.ok) {
-        alert("✅ Venta y Cliente registrados con éxito");
+        alert("✅ Venta registrada con éxito");
         cerrarModal();
         mostrarSeccion('ventas');
     }
