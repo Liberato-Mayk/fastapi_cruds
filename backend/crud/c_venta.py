@@ -8,7 +8,6 @@ from backend.models.m_clientes import Cliente
 
 
 def crear_venta(db: Session, venta_data):
-
     cliente = db.get(Cliente, venta_data.cliente_id)
     if not cliente:
         raise HTTPException(status_code=404, detail="Cliente no existe")

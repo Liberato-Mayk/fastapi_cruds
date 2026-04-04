@@ -240,8 +240,10 @@ async function abrirModalForm(id = null) {
     const btnGuardar = document.querySelector('#formularioDinmico .btn-primary');
     tituloModal.innerText = (id !== null ? "Actualizar " : "Nuevo ") + seccionActual;
     btnGuardar.innerText = id !== null ? "Actualizar Datos" : "Guardar Datos";
+    
     contenedor.innerHTML = "";
-    if (seccionActual === 'productos') {
+
+    if (seccionActual === 'productos') { // contruimos el html segun la accion 
         contenedor.innerHTML = `<input id="f-nombre" placeholder="Nombre" required>
                                 <input id="f-cat" type="number" placeholder="ID Categoría (Num)" required>
                                 <input id="f-stock" type="number" placeholder="Stock" required>
@@ -256,9 +258,11 @@ async function abrirModalForm(id = null) {
                                 <input id="f-email" type="email" placeholder="Email">
                                 <input id="f-telf" placeholder="Teléfono">`;
     }
+    // se cargan los datos, si estamos editando 
     if (id !== null) {
         const resp = await fetch(`${API_URL}/${seccionActual}/${id}`);
         const item = await resp.json();
+        // llenamos los campos segun la seccion  
         if (seccionActual === 'productos') {
             document.getElementById('f-nombre').value = item.nombre;
             document.getElementById('f-cat').value = item.categoria_id;
@@ -282,19 +286,19 @@ async function abrirModalForm(id = null) {
 document.getElementById('formularioDinmico').onsubmit = async function(e) {
     e.preventDefault();
     let objetoBase = {};
-    if (seccionActual === 'productos') {
+    if (seccionActual === 'productos') { // contruye el JSON de productos 
         objetoBase = {
             nombre: document.getElementById('f-nombre').value,
             categoria_id: parseInt(document.getElementById('f-cat').value),
             stock: parseInt(document.getElementById('f-stock').value),
             precio: parseFloat(document.getElementById('f-precio').value)
         };
-    } else if (seccionActual === 'categorias') {
+    } else if (seccionActual === 'categorias') { // contruye el JSON de categorias 
         objetoBase = {
             nombre: document.getElementById('f-nombre').value,
             descripcion: document.getElementById('f-desc').value
         };
-    } else if (seccionActual === 'clientes') {
+    } else if (seccionActual === 'clientes') { // contruye el JSON de clientes
         objetoBase = {
             documento: document.getElementById('f-tipo').value + ": " + document.getElementById('f-doc').value,
             nombre: document.getElementById('f-nombre').value,
@@ -302,17 +306,18 @@ document.getElementById('formularioDinmico').onsubmit = async function(e) {
             telefono: document.getElementById('f-telf').value
         };
     }
-    const metodo = editandoId !== null ? 'PUT' : 'POST';
+    const metodo = editandoId !== null ? 'PUT' : 'POST'; // detecta si es para crear o editar
     const url = editandoId !== null ? `${API_URL}/${seccionActual}/${editandoId}` : `${API_URL}/${seccionActual}/`;
-    await fetch(url, {
+    await fetch(url, { // envia el JSON a fastapi
         method: metodo,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(objetoBase)
     });
-    cerrarModal();
-    mostrarSeccion(seccionActual);
+    cerrarModal(); // oculta el modelo
+    mostrarSeccion(seccionActual); // vuelve a cargar la tabla actual 
 };
 
+// elimina la fila en la seccion que se encuentra
 async function eliminarFila(id) {
     if (confirm("¿Estás seguro de eliminar este registro?")) {
         await fetch(`${API_URL}/${seccionActual}/${id}`, { method: 'DELETE' });
@@ -320,6 +325,7 @@ async function eliminarFila(id) {
     }
 }
 
+// ventana para poder registrar la venta
 async function registrarVenta() {
     let clienteId = document.getElementById('v-cliente-id-seleccionado').value;
     const esNuevo = document.getElementById('seccion-cliente-nuevo').style.display === "block";
@@ -369,11 +375,13 @@ async function registrarVenta() {
     }
 }
 
+// cierra las ventanas emergentes 
 function cerrarModal() {
     document.getElementById('modalForm').style.display = "none";
     document.getElementById('modalVenta').style.display = "none";
 }
 
+//calcula el total a pagar 
 function calcularTotal() {
     const cantElem = document.getElementById('v-cantidad');
     const totalElem = document.getElementById('v-total');
@@ -386,6 +394,7 @@ function calcularTotal() {
     totalElem.innerText = (cantidad * productoSeleccionadoParaVenta.precio).toFixed(2);
 }
 
+// cambia la cantidad de digitos del DNI/RUC
 function cambiarTipoDoc() {
     const tipo = document.getElementById('f-tipo').value;
     const inputDoc = document.getElementById('f-doc');
@@ -393,8 +402,8 @@ function cambiarTipoDoc() {
     inputDoc.maxLength = tipo === "DNI" ? 8 : 11;
 }
 
+// muestra las ventas que a hecho el cliente
 mostrarSeccion('productos');
-
 async function verDetalle(ventaId) {
     const response = await fetch(`${API_URL}/ventas/`);
     const ventas = await response.json();
@@ -425,6 +434,7 @@ async function verDetalle(ventaId) {
     document.getElementById('modalForm').style.display = "block";
 }
 
+// busca el cliente al registrar la venta
 async function buscarClienteAlVuelo(val) {
     const res = document.getElementById("res-busqueda-cliente");
     const secNuevo = document.getElementById("seccion-cliente-nuevo");
@@ -461,6 +471,7 @@ async function buscarClienteAlVuelo(val) {
     }
 }
 
+// carga los mensajes enviados de la pagina
 async function cargarMensajes() {
     const cabecera = document.getElementById('cabecera-tabla');
     const cuerpo = document.getElementById('cuerpo-tabla');
@@ -500,4 +511,25 @@ async function cargarMensajes() {
         console.error("Error al cargar mensajes:", error);
         cuerpo.innerHTML = '<tr><td colspan="7">No se pudieron cargar los mensajes.</td></tr>';
     }
+}
+
+function agregarAlCarrito(producto) {
+    const cantidad = parseInt(document.getElementById("v-cantidad").value);
+
+    const existente = carritoVenta.find(p => p.producto_id === producto.id);
+
+    if (existente) {
+        existente.cantidad += cantidad;
+        existente.subtotal = existente.cantidad * existente.precio;
+    } else {
+        carritoVenta.push({
+            producto_id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            cantidad: cantidad,
+            subtotal: producto.precio * cantidad
+        });
+    }
+
+    renderizarCarrito();
 }

@@ -10,15 +10,12 @@ router = APIRouter(prefix="/admin", tags=["Admin Auth"])
 @router.post("/login")
 def login(data: AdminLogin, db: Session = Depends(get_session)):
     admin = get_admin_by_username(db, data.username)
-
     if not admin:
         return {"error": "no existe usuario"}
-
     return {
         "usuario": admin.username,
         "hash": admin.hashed_password
     }
-
 
 @router.post("/create-admin")
 def create_first_admin(data: AdminLogin, db: Session = Depends(get_session)): 

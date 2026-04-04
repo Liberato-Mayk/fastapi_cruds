@@ -8,7 +8,6 @@ class MensajeCreate(SQLModel):
     telefono: Optional[str] = None
     mensaje: str
 
-
 class MensajeResponse(SQLModel):
     id: int
     nombre: str

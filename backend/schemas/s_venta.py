@@ -10,7 +10,6 @@ class VentaCreate(BaseModel):
     cliente_id: int
     detalles: List[DetalleCreate]
 
-
 class DetalleRead(BaseModel):
     producto_nombre: str
     cantidad: int

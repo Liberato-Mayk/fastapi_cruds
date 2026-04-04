@@ -8,11 +8,9 @@ from backend.crud import c_cliente
 
 router = APIRouter(prefix="/clientes", tags=["Clientes"])
 
-
 @router.post("/", response_model=ClienteRead)
 def crear_cliente(cliente: ClienteCreate, db: Session = Depends(get_session)):
     return c_cliente.crear_cliente(db, cliente)
-
 
 @router.get("/", response_model=List[ClienteRead])
 def listar_clientes(db: Session = Depends(get_session)):

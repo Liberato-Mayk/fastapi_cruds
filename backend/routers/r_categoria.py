@@ -7,7 +7,6 @@ from backend.crud import c_categoria
 
 router = APIRouter(prefix="/categorias", tags=["Categorias"])
 
-
 @router.post("/", response_model=CategoriaRead)
 def crear_categoria(categoria: CategoriaCreate, db: Session = Depends(get_session)):
     return c_categoria.crear_categoria(db, categoria)

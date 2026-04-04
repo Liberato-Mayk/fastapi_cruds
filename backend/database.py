@@ -1,12 +1,8 @@
 from sqlmodel import SQLModel, create_engine, Session
-from backend.settings import username, password, host, database, port
 from typing import Generator
 import os
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL")
-if not DATABASE_URL:
-    raise ValueError("No se encontró la variable DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL, echo=True)
 

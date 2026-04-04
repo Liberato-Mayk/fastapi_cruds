@@ -8,17 +8,14 @@ class ClienteBase(SQLModel):
     email: Optional[str] = None
     telefono: Optional[str] = None
 
-
 class ClienteCreate(ClienteBase):
     pass
-
 
 class ClienteUpdate(SQLModel):
     documento: Optional[str] = None
     nombre: Optional[str] = None
     email: Optional[str] = None
     telefono: Optional[str] = None
-
 
 class ClienteRead(ClienteBase):
     id: int
