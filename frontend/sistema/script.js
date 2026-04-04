@@ -513,23 +513,33 @@ async function cargarMensajes() {
     }
 }
 
-function agregarAlCarrito(producto) {
-    const cantidad = parseInt(document.getElementById("v-cantidad").value);
+function renderizarCarrito() {
+    const lista = document.getElementById("lista-carrito");
+    const totalElem = document.getElementById("v-total-general");
 
-    const existente = carritoVenta.find(p => p.producto_id === producto.id);
+    lista.innerHTML = "";
 
-    if (existente) {
-        existente.cantidad += cantidad;
-        existente.subtotal = existente.cantidad * existente.precio;
-    } else {
-        carritoVenta.push({
-            producto_id: producto.id,
-            nombre: producto.nombre,
-            precio: producto.precio,
-            cantidad: cantidad,
-            subtotal: producto.precio * cantidad
-        });
-    }
+    let total = 0;
 
-    renderizarCarrito();
+    carritoVenta.forEach(p => {
+        total += p.subtotal;
+
+        const div = document.createElement("div");
+        div.style = "margin-bottom:10px; padding:10px; border-bottom:1px solid #ccc;";
+
+        div.innerHTML = `
+            <strong>${p.nombre}</strong><br>
+            Cantidad: ${p.cantidad}<br>
+            Precio: S/ ${p.precio}<br>
+            Subtotal: S/ ${p.subtotal.toFixed(2)}<br>
+            <button onclick="eliminarDelCarrito(${p.producto_id})" 
+                style="background:red;color:white;border:none;padding:5px 10px;cursor:pointer;">
+                ❌ Eliminar
+            </button>
+        `;
+
+        lista.appendChild(div);
+    });
+
+    totalElem.innerText = total.toFixed(2);
 }
